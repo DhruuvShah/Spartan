@@ -11,10 +11,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Spartan | Protocol</title>
 
-    <!-- Favicons -->
-    <link rel="icon" href="favicon/favicon.ico" sizes="any">
+    <!-- Favicons — ICO first as legacy fallback, larger PNGs override in modern browsers -->
+    <link rel="icon" href="favicon/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="icons/icon-48x48.png">
     <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
 
     <!-- PWA Manifest -->
@@ -2265,7 +2266,7 @@
 
             const savedTheme = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const initialIsDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            const initialIsDark = savedTheme === 'dark';
             applyTheme(initialIsDark);
 
             themeToggleBtn.addEventListener('click', () => {
