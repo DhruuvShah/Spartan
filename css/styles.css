@@ -1,0 +1,394 @@
+/* ============================================================
+   SPARTAN — Global Stylesheet
+   Sections:
+   1. CSS Custom Properties (Theme Tokens)
+   2. Base / Reset
+   3. Scrollbar
+   4. Ambient Background & Orbs
+   5. Glass Components
+   6. Layout
+   7. Navigation
+   8. Buttons & Inputs
+   9. Sections / Transitions
+   10. Tables
+   11. Typography
+   12. Progress Bars
+   ============================================================ */
+
+/* ---- 1. CSS Custom Properties (Theme Tokens) -------------- */
+:root {
+  --bg-color: #f5f5f7;
+  --text-color: #1d1d1f;
+  --panel-bg: rgba(255, 255, 255, 0.65);
+  --panel-border: rgba(255, 255, 255, 0.8);
+  --sidebar-bg: rgba(245, 245, 247, 0.85);
+  --divider: rgba(0, 0, 0, 0.05);
+  --hover-bg: rgba(0, 0, 0, 0.03);
+  --active-bg: rgba(0, 0, 0, 0.05);
+  --shadow-glass: 0 4px 24px -4px rgba(0, 0, 0, 0.04);
+  --input-bg: rgba(255, 255, 255, 0.5);
+  --inner-bg: rgba(255, 255, 255, 0.5);
+  --inner-border: rgba(255, 255, 255, 0.6);
+  --header-bg: rgba(0, 0, 0, 0.02);
+}
+
+.dark {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --panel-bg: #1c1c1e;
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --sidebar-bg: rgba(28, 28, 30, 0.85);
+  --divider: rgba(255, 255, 255, 0.1);
+  --hover-bg: #3a3a3c;
+  --active-bg: #2c2c2e;
+  --shadow-glass: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  --input-bg: #2c2c2e;
+  --inner-bg: #2c2c2e;
+  --inner-border: rgba(255, 255, 255, 0.05);
+  --header-bg: #2c2c2e;
+}
+
+/* ---- 2. Base / Reset -------------------------------------- */
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow: hidden;
+  overscroll-behavior-y: none;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+}
+
+/* ---- 3. Scrollbar ----------------------------------------- */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--divider);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hover-bg);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---- 4. Ambient Background & Orbs ------------------------- */
+.ambient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  background: var(--bg-color);
+  transition: background-color 0.4s ease;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.6;
+  animation: float 20s infinite ease-in-out alternate;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .orb {
+    filter: blur(80px);
+  }
+}
+
+.orb-1 {
+  top: -10%;
+  left: -10%;
+  width: 70vw;
+  height: 70vw;
+  background: #e0eafc;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  bottom: -20%;
+  right: -10%;
+  width: 80vw;
+  height: 80vw;
+  background: #cfdef3;
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  top: 40%;
+  left: 30%;
+  width: 60vw;
+  height: 60vw;
+  background: #e2f0e6;
+  animation-delay: -10s;
+}
+
+.dark .orb {
+  display: none;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(5%, 10%) scale(1.1);
+  }
+}
+
+/* ---- 5. Glass Components ---------------------------------- */
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--shadow-glass);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.dark .glass-panel {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background-image: none !important;
+}
+
+.glass-sidebar {
+  background: var(--sidebar-bg);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-right: 1px solid var(--panel-border);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+/* ---- 6. Layout -------------------------------------------- */
+#app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+#sidebar {
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.4s;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+#main-content {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  position: relative;
+  width: 100%;
+  /* mobile: extra 4rem clears the fixed navbar (ID overrides Tailwind utilities) */
+  padding-top: calc(env(safe-area-inset-top) + 4rem);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 2rem);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+@media (min-width: 768px) {
+  /* desktop: sidebar is visible, no fixed navbar overhead */
+  #main-content {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 2rem);
+  }
+}
+
+.mobile-header {
+  padding-top: calc(env(safe-area-inset-top) + 1rem);
+  padding-bottom: 1rem;
+}
+
+#mobile-overlay {
+  transition: opacity 0.3s ease;
+}
+
+/* ---- 7. Navigation ---------------------------------------- */
+.nav-item {
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border-radius: 12px;
+  margin: 2px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-color);
+  padding: 10px 16px;
+}
+
+.nav-item.active {
+  background-color: var(--active-bg);
+  color: #0a84ff;
+  font-weight: 600;
+}
+
+.nav-item:active {
+  transform: scale(0.98);
+  background-color: var(--hover-bg);
+}
+
+.nav-item i {
+  font-size: 1.25rem;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.nav-item.active i {
+  opacity: 1;
+  color: #0a84ff;
+}
+
+/* ---- 8. Buttons & Inputs ---------------------------------- */
+/* 16px exact prevents iOS Safari zoom on focus */
+.glass-input {
+  background: var(--input-bg);
+  border: 1px solid var(--divider);
+  color: var(--text-color);
+  outline: none;
+  font-size: 16px !important;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.4s ease;
+}
+
+.glass-input:focus {
+  border-color: #0a84ff;
+}
+
+@media (min-width: 768px) {
+  /* Desktop allows smaller input font — no zoom risk */
+  .glass-input {
+    font-size: 0.875rem !important;
+  }
+}
+
+select.glass-input {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px;
+  padding-right: 2.5rem;
+}
+
+.ios-btn {
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  touch-action: manipulation;
+}
+
+.ios-btn:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+}
+
+/* ---- 9. Sections / Transitions ---------------------------- */
+.section-container {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.section-container.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- 10. Tables ------------------------------------------- */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--divider);
+  font-size: 0.875rem;
+  transition: border-color 0.4s ease;
+}
+
+@media (min-width: 768px) {
+  th,
+  td {
+    padding: 1rem;
+    font-size: 0.9375rem;
+  }
+}
+
+th {
+  font-weight: 600;
+  color: #86868b;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---- 11. Typography --------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* ---- 12. Progress Bars ------------------------------------ */
+.progress-bar-fill {
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
