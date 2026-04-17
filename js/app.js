@@ -16,37 +16,11 @@
    ============================================================ */
 
 /* ---- 1. PWA Initialization (runs immediately) ------------- */
-(function initPWA() {
-  const iconSVG = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzBhODRmZiIvPjxwYXRoIGQ9Ik0zMzYuNCAxNTIuNUMzMTEuMyAxMzIuNCAyNzUuNSAxMjggMjQxLjEgMTI4Yy00OS40IDAtMTA0IDcuOC0xMTIuOCA1OS03LjYgNDQuMyAyOC43IDYwLjUgNjQgNzAuOCA0MS4xIDExLjggNjMuMyAxMy43IDYxLjIgMzYuNi0xLjcgMTgtMjYuOCAzMy4zLTY1LjQgMjIuMS0xNi41LTQuOC00My0xNi4xLTQ4LjEtMzEuNi0xMS43IDUuNS0yOS40IDIxLjItMzYuMyAzNy4xIDIyLjEgMjEuOSA1NiA0MiA5OC4zIDQyIDUzIDAgMTE1LjQtOSAxMjQuNi02My41IDEwLjQtNjIuOS00Ni03Ni04My04Ni43LTMxLjUtOS4yLTUxLjEtMTQuOC00Ni45LTM1LjggMy43LTE4LjggMzUuNi0yMS40IDU4LjktMTIuOSAxOS42IDcuMSAzMiAxOCAyOS4yIDI2LjhsMzIuNy0zOS40eiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==`;
-
-  const manifest = {
-    name: "Spartan Protocol",
-    short_name: "Spartan",
-    display: "standalone",
-    background_color: "#000000",
-    theme_color: "#000000",
-    start_url: window.location.pathname || "/",
-    icons: [{ src: iconSVG, sizes: "192x192 512x512", type: "image/svg+xml" }],
-  };
-
-  const manifestBlob = new Blob([JSON.stringify(manifest)], {
-    type: "application/manifest+json",
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
   });
-  document.getElementById("manifest-link").href =
-    URL.createObjectURL(manifestBlob);
-
-  if ("serviceWorker" in navigator) {
-    const swCode = `
-            self.addEventListener('install', (e) => self.skipWaiting());
-            self.addEventListener('activate', (e) => self.clients.claim());
-            self.addEventListener('fetch', (e) => {});
-        `;
-    const swBlob = new Blob([swCode], { type: "application/javascript" });
-    navigator.serviceWorker
-      .register(URL.createObjectURL(swBlob))
-      .catch(() => {});
-  }
-})();
+}
 
 /* ---- Main Application (DOM ready) ------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
